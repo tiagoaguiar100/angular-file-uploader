@@ -1,20 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TimerService } from '../../services/timer.service';
+
+const alertMessageTimer = 1000;
 
 @Component({
   selector: 'app-file-upload',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './file-upload.component.html',
-  styleUrl: './file-upload.component.scss',
+  styleUrl: './file-upload.component.scss'
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit{
   fileUploadForm = new FormGroup({
     file: new FormControl(),
   });
   successMessage : string = '';
   dangerMessage: string = '';
+
+  constructor(readonly timerService: TimerService) {}
+
+  ngOnInit(): void {
+    this.timerService.resetTimer();
+  }
 
   getFiles() {
     return JSON.parse(localStorage.getItem('files') ?? '[]');
@@ -34,10 +43,11 @@ export class FileUploadComponent {
         { id, name, type, size },
       ])
     );
+    this.timerService.resetTimer();
     this.successMessage = 'File has been uploaded.';
     setTimeout(() => {
       this.closeSucessMessage();
-    }, 1000);
+    }, alertMessageTimer);
   }
 
   deleteFile(id: number): void {
@@ -47,10 +57,11 @@ export class FileUploadComponent {
         ...this.getFiles().filter((el: any) => el.id != id),
       ])
     );
+    this.timerService.resetTimer();
     this.dangerMessage = 'File has been deleted.';
     setTimeout(() => {
       this.closeDangerMessage();
-    }, 1000);
+    }, alertMessageTimer);
   }
 
 
