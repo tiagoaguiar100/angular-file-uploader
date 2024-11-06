@@ -13,6 +13,10 @@ export class AuthService {
     return !!this.storageService.get('user');
   }
 
+  getUser(): User {
+    return JSON.parse(this.storageService.get('user') ?? '');
+  }
+
   logIn(user: User): void {
     this.storageService.save('user', JSON.stringify(user));
     this.router.navigate(['/file-upload']);

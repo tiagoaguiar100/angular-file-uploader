@@ -21,9 +21,9 @@
     </nav>
   </header>
   <router-outlet></router-outlet>
-  <footer class="footer bg-white rounded-lg shadow m-4 dark:bg-gray-800" >
+  <footer *ngIf="authService.isAuthenticated()" class="footer bg-white rounded-lg shadow m-4 dark:bg-gray-800" >
     <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-end">
-      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 text">2024 - Tiago Aguiar
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 text">User: {{authService.getUser().email}}
     </span>
     </div>
   </footer>
