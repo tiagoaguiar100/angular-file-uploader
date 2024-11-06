@@ -24,6 +24,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, angular-file-uploader');
+    expect(compiled.querySelector('nav a')?.textContent).toContain('Home');
+    expect(compiled.querySelector('nav a[href=file-upload]')?.textContent).toContain('File Upload');
   });
 });
