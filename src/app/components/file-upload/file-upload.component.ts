@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TimerService } from '../../services/timer.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 const alertMessageTimer = 1000;
 
@@ -19,14 +20,14 @@ export class FileUploadComponent implements OnInit{
   successMessage : string = '';
   dangerMessage: string = '';
 
-  constructor(readonly timerService: TimerService) {}
+  constructor(readonly timerService: TimerService, private readonly storageService: LocalStorageService) {}
 
   ngOnInit(): void {
     this.timerService.resetTimer();
   }
 
   getFiles() {
-    return JSON.parse(localStorage.getItem('files') ?? '[]');
+    return JSON.parse(this.storageService.get('files') ?? '[]');
   }
 
   onFileUpload(event: Event) {
@@ -36,7 +37,7 @@ export class FileUploadComponent implements OnInit{
       ?.setValue(fileUploaded ? fileUploaded[0] : null);
     const { name, type, size } = this.fileUploadForm.get('file')?.value || '';
     const id = this.getFiles().length + 1;
-    localStorage.setItem(
+    this.storageService.save(
       'files',
       JSON.stringify([
         ...this.getFiles(),
@@ -51,7 +52,7 @@ export class FileUploadComponent implements OnInit{
   }
 
   deleteFile(id: number): void {
-    localStorage.setItem(
+    this.storageService.save(
       'files',
       JSON.stringify([
         ...this.getFiles().filter((el: any) => el.id != id),
@@ -63,11 +64,11 @@ export class FileUploadComponent implements OnInit{
       this.closeDangerMessage();
     }, alertMessageTimer);
   }
-
-
+  
   closeSucessMessage() {
     this.successMessage = '';
   }
+
   closeDangerMessage() {
     this.dangerMessage = '';
   }

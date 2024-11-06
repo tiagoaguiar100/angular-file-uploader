@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user.model';
 import { Router } from '@angular/router';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private readonly router: Router) {}
+  constructor(private readonly router: Router, private readonly storageService: LocalStorageService) {}
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('user');
+    return !!this.storageService.get('user');
   }
 
   logIn(user: User): void {
-    localStorage.setItem('user', JSON.stringify(user));
+    this.storageService.save('user', JSON.stringify(user));
     this.router.navigate(['/file-upload']);
   }
 
   logOut(): void {
-    localStorage.removeItem('user');
+    this.storageService.clear();
     this.router.navigate(['/']);
   }
 }
