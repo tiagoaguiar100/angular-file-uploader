@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     this.storageService.clear();
   }
 
-  @HostListener('click', ['$event']) handleHostClick(_: PointerEvent) {
+  @HostListener('click', ['$event']) handleHostClick() {
     if (this.authService.isAuthenticated()) {
       this.timerService.resetTimer();
     }

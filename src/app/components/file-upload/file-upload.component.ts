@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TimerService } from '../../services/timer.service';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { FileModel } from '../../model/file.model';
 
 const alertMessageTimer = 1000;
 
@@ -26,7 +27,7 @@ export class FileUploadComponent implements OnInit{
     this.timerService.resetTimer();
   }
 
-  getFiles() {
+  getFiles(): FileModel[] {
     return JSON.parse(this.storageService.get('files', false) ?? '[]');
   }
 
@@ -56,7 +57,7 @@ export class FileUploadComponent implements OnInit{
     this.storageService.save(
       'files',
       JSON.stringify([
-        ...this.getFiles().filter((el: any) => el.id != id),
+        ...this.getFiles().filter((el: FileModel) => el.id != id),
       ]),
       false
     );
