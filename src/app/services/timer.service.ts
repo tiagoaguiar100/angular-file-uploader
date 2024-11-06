@@ -19,7 +19,7 @@ export class TimerService implements OnDestroy {
   }
 
   resetTimer() {
-    if (!!this.timeoutId) {
+    if (this.timeoutId) {
       clearTimeout(this.timeoutId);
     }
     this.timeoutValue = TIMER;
