@@ -4,10 +4,14 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  constructor(private readonly router: Router, private readonly storageService: LocalStorageService) {}
+  
+  constructor(
+    private readonly router: Router,
+    private readonly storageService: LocalStorageService
+  ) {}
 
   isAuthenticated(): boolean {
     return !!this.storageService.get('user');

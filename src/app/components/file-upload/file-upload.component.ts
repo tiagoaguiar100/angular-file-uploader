@@ -27,7 +27,7 @@ export class FileUploadComponent implements OnInit{
   }
 
   getFiles() {
-    return JSON.parse(this.storageService.get('files') ?? '[]');
+    return JSON.parse(this.storageService.get('files', false) ?? '[]');
   }
 
   onFileUpload(event: Event) {
@@ -42,7 +42,8 @@ export class FileUploadComponent implements OnInit{
       JSON.stringify([
         ...this.getFiles(),
         { id, name, type, size },
-      ])
+      ]),
+      false
     );
     this.timerService.resetTimer();
     this.successMessage = 'File has been uploaded.';
@@ -56,7 +57,8 @@ export class FileUploadComponent implements OnInit{
       'files',
       JSON.stringify([
         ...this.getFiles().filter((el: any) => el.id != id),
-      ])
+      ]),
+      false
     );
     this.timerService.resetTimer();
     this.dangerMessage = 'File has been deleted.';
@@ -64,7 +66,7 @@ export class FileUploadComponent implements OnInit{
       this.closeDangerMessage();
     }, alertMessageTimer);
   }
-  
+
   closeSucessMessage() {
     this.successMessage = '';
   }
