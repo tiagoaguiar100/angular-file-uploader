@@ -7,7 +7,7 @@ const TIMER = 5 * 60;
   providedIn: 'root'
 })
 export class TimerService implements OnDestroy {
-  timeoutId: NodeJS.Timeout | undefined;
+  timeoutId: ReturnType<typeof setInterval> | undefined;
   timeoutValue: number = TIMER;
 
   constructor(private readonly authService: AuthService) {}
